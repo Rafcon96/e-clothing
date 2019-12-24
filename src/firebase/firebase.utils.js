@@ -1,4 +1,4 @@
-import firebase, { initializeApp } from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
@@ -13,6 +13,8 @@ const config = {
     measurementId: "G-D33HS4MMRH"
   };
 
+  firebase.initializeApp(config);
+
   export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
@@ -22,13 +24,13 @@ const config = {
 
     if (!snapShot.exists) {
       const { displayName, email } = userAuth;
-      const createAt = new Date();
+      const createdAt = new Date();
 
       try {
         await userRef.set({
           displayName,
           email,
-          createAt,
+          createdAt,
           ...additionalData
         })
       } catch (error) {
@@ -38,8 +40,8 @@ const config = {
     }
     return userRef;
   };
-
-  firebase.initializeApp(config);
+ 
+  
 
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
